@@ -1,0 +1,110 @@
+{
+  "name": "@saeris/apollo-server-vercel",
+  "description": "Production-ready Node.js GraphQL server for Vercel Serverless Functions",
+  "version": "1.0.1",
+  "keywords": [
+    "GraphQL",
+    "Apollo",
+    "Server",
+    "Vercel",
+    "Typescript"
+  ],
+  "author": "Drake Costa <drake@saeris.io> (https://github.com/Saeris/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saeris/apollo-server-vercel.git"
+  },
+  "homepage": "https://github.com/saeris/apollo-server-vercel#readme",
+  "bugs": {
+    "url": "https://github.com/saeris/apollo-server-vercel/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "main": "src/index.ts",
+  "engines": {
+    "node": ">=12 <15"
+  },
+  "scripts": {
+    "ci": "yarn install --ignore-scripts --frozen-lockfile --silent --non-interactive",
+    "build": "pika build",
+    "build:docs": "fiddly",
+    "lint": "yarn test:lint",
+    "release": "np",
+    "start": "vercel dev",
+    "test": "yarn test:lint && yarn test:typecheck && yarn test:unit",
+    "test:lint": "eslint \"./src/**/*.{j,t}s?(x)\"",
+    "test:typecheck": "tsc --noEmit",
+    "test:unit": "jest",
+    "test:watch": "yarn test:unit --watch",
+    "typecheck": "yarn test:typecheck",
+    "version": "yarn build"
+  },
+  "dependencies": {
+    "@apollographql/graphql-playground-html": "1.6.29",
+    "@vercel/node": "^1.12.1",
+    "apollo-server-core": "2.25.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@pika/pack": "^0.5.0",
+    "@pika/plugin-build-node": "^0.9.2",
+    "@pika/plugin-build-types": "^0.9.2",
+    "@pika/plugin-standard-pkg": "^0.9.2",
+    "@saeris/eslint-config": "^2.0.2",
+    "@types/graphql": "^14.5.0",
+    "@types/jest": "^27.0.3",
+    "@types/micro": "^7.3.6",
+    "@types/node": "^16.11.10",
+    "@types/supertest": "^2.0.11",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.6.0",
+    "fiddly": "^0.12.0",
+    "husky": "^4.2.5",
+    "jest": "^27.3.1",
+    "js-sha256": "^0.9.0",
+    "lint-staged": "^12.1.2",
+    "micro": "^9.3.4",
+    "np": "^7.6.0",
+    "prettier": "2.4.1",
+    "supertest": "^6.1.6",
+    "typescript": "4.4.4",
+    "vercel": "^23.1.2",
+    "vercel-node-server": "^2.2.1"
+  },
+  "peerDependencies": {
+    "graphql": "^0.12.0 || ^0.13.0 || ^14.x || >=15.x <16.0.0"
+  },
+  "resolutions": {
+    "graphql": "^15.x"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg",
+        {
+          "exclude": [
+            "*.gql",
+            "__mocks__/**/*",
+            "__test__/**/*"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node"
+      ],
+      [
+        "@pika/plugin-build-types"
+      ]
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
